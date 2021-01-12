@@ -53,7 +53,7 @@ version <next>:
 - Microsoft Paint (MSP) demuxer
 - AV1 monochrome encoding support via libaom >= 2.0.1
 - asuperpass and asuperstop filter
-- JT/T 1078 demuxer
+- JT/T 1078 (de)muxer
 
 
 version 4.3:

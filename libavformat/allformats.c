@@ -227,6 +227,7 @@ extern AVInputFormat  ff_ivr_demuxer;
 extern AVInputFormat  ff_jacosub_demuxer;
 extern AVOutputFormat ff_jacosub_muxer;
 extern AVInputFormat  ff_jtt1078_demuxer;
+extern AVOutputFormat ff_jtt1078_muxer;
 extern AVInputFormat  ff_jv_demuxer;
 extern AVInputFormat  ff_kux_demuxer;
 extern AVInputFormat  ff_kvag_demuxer;
