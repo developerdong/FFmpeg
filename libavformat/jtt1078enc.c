@@ -176,7 +176,7 @@ static int jtt1078_write_packet(AVFormatContext *format, AVPacket *pkt) {
 static const AVOption options[] = {
         {"version",         "Published year of JT/T 1078",              OFFSET(version),         AV_OPT_TYPE_INT,    {.i64=2016}, 2016,              INT_MAX, AV_OPT_FLAG_ENCODING_PARAM},
         {"sim_card",        "SIM card number of the device (12 chars)", OFFSET(sim_card),        AV_OPT_TYPE_STRING, {.str="000000000000"}, INT_MIN, INT_MAX, AV_OPT_FLAG_ENCODING_PARAM},
-        {"logical_channel", "Logical channel number",                   OFFSET(logical_channel), AV_OPT_TYPE_INT,    {.i64=0},    1, 37,                      AV_OPT_FLAG_ENCODING_PARAM},
+        {"logical_channel", "Logical channel number",                   OFFSET(logical_channel), AV_OPT_TYPE_INT,    {.i64=1},    1, 37,                      AV_OPT_FLAG_ENCODING_PARAM},
         {NULL},
 };
 
