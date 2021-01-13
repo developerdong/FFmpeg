@@ -168,6 +168,7 @@ static int jtt1078_write_packet(AVFormatContext *format, AVPacket *pkt) {
             avio_write(io, pkt->data + sent, data_length);
             sent += data_length;
         }
+        return 0;
     }
     return AVERROR_PATCHWELCOME;
 }
