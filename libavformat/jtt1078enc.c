@@ -47,8 +47,8 @@ typedef struct JTT1078Context {
     char *sim_card;
     int logical_channel;
     uint16_t packet_number;
-    int64_t last_i_pts;
-    int64_t last_pts;
+    int64_t last_i_dts;
+    int64_t last_dts;
 } JTT1078Context;
 
 static int jtt1078_init(struct AVFormatContext *s) {
@@ -56,8 +56,8 @@ static int jtt1078_init(struct AVFormatContext *s) {
     JTT1078Context *jtt1078 = s->priv_data;
     jtt1078->packet_number = 0;
     // set timestamp
-    jtt1078->last_i_pts = AV_NOPTS_VALUE;
-    jtt1078->last_pts = AV_NOPTS_VALUE;
+    jtt1078->last_i_dts = AV_NOPTS_VALUE;
+    jtt1078->last_dts = AV_NOPTS_VALUE;
     // set time base
     for (unsigned int i = 0; i < s->nb_streams; i++) {
         s->streams[i]->time_base = av_make_q(1, 1000);
@@ -144,20 +144,14 @@ static int jtt1078_write_packet(AVFormatContext *format, AVPacket *pkt) {
                 avio_wb64(io, pkt->pts);
                 if (data_type != AUDIO_FRAME) {
                     // write last i frame interval
-                    if (data_type == VIDEO_I_FRAME && jtt1078->last_i_pts == AV_NOPTS_VALUE) {
-                        jtt1078->last_i_pts = pkt->pts;
-                    }
-                    avio_wb16(io, pkt->pts - jtt1078->last_i_pts);
+                    avio_wb16(io, jtt1078->last_i_dts == AV_NOPTS_VALUE ? 0 : pkt->dts - jtt1078->last_i_dts);
                     if (data_type == VIDEO_I_FRAME && (packet_type == ATOMIC_PACKET || packet_type == LAST_PACKET)) {
-                        jtt1078->last_i_pts = pkt->pts;
+                        jtt1078->last_i_dts = pkt->dts;
                     }
                     // write last frame interval
-                    if (jtt1078->last_pts == AV_NOPTS_VALUE) {
-                        jtt1078->last_pts = pkt->pts;
-                    }
-                    avio_wb16(io, pkt->pts - jtt1078->last_pts);
+                    avio_wb16(io, jtt1078->last_dts == AV_NOPTS_VALUE ? 0 : pkt->dts - jtt1078->last_dts);
                     if (packet_type == ATOMIC_PACKET || packet_type == LAST_PACKET) {
-                        jtt1078->last_pts = pkt->pts;
+                        jtt1078->last_dts = pkt->dts;
                     }
                 }
             }
