@@ -257,25 +257,25 @@ static int jtt1078_read_packet(AVFormatContext *format, AVPacket *pkt) {
 
 #define OFFSET(x) offsetof(JTT1078Context, x)
 static const AVOption options[] = {
-    {"version", "Published year of JT/T 1078", OFFSET(version), AV_OPT_TYPE_INT, {.i64=2016}, 2016, INT_MAX, AV_OPT_FLAG_DECODING_PARAM},
-    {NULL},
+        {"version", "Published year of JT/T 1078", OFFSET(version), AV_OPT_TYPE_INT, {.i64=2016}, 2016, INT_MAX, AV_OPT_FLAG_DECODING_PARAM},
+        {NULL},
 };
 
 #if CONFIG_JTT1078_DEMUXER
 static const AVClass jtt1078_demuxer_class = {
-    .class_name     = "JT/T 1078 demuxer",
-    .item_name      = av_default_item_name,
-    .option         = options,
-    .version        = LIBAVUTIL_VERSION_INT,
+        .class_name     = "JT/T 1078 demuxer",
+        .item_name      = av_default_item_name,
+        .option         = options,
+        .version        = LIBAVUTIL_VERSION_INT,
 };
 
 AVInputFormat ff_jtt1078_demuxer = {
-    .name           = "jtt1078",
-    .long_name      = NULL_IF_CONFIG_SMALL("JT/T 1078"),
-    .read_probe     = jtt1078_probe,
-    .read_header    = jtt1078_read_header,
-    .read_packet    = jtt1078_read_packet,
-    .priv_data_size = sizeof(JTT1078Context),
-    .priv_class     = &jtt1078_demuxer_class,
+        .name           = "jtt1078",
+        .long_name      = NULL_IF_CONFIG_SMALL("JT/T 1078"),
+        .read_probe     = jtt1078_probe,
+        .read_header    = jtt1078_read_header,
+        .read_packet    = jtt1078_read_packet,
+        .priv_data_size = sizeof(JTT1078Context),
+        .priv_class     = &jtt1078_demuxer_class,
 };
 #endif
