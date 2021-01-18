@@ -27,6 +27,7 @@
 typedef struct JTT1078Context {
     const AVClass *class;
     int version;
+    int64_t first_g726_pts;
 } JTT1078Context;
 
 static int jtt1078_probe(const AVProbeData *p) {
@@ -39,6 +40,7 @@ static int jtt1078_probe(const AVProbeData *p) {
 
 static int jtt1078_read_header(AVFormatContext *s) {
     s->ctx_flags |= AVFMTCTX_NOHEADER;
+    ((JTT1078Context *) s->priv_data)->first_g726_pts = AV_NOPTS_VALUE;
     return 0;
 }
 
@@ -202,6 +204,12 @@ static int jtt1078_read_packet(AVFormatContext *format, AVPacket *pkt) {
             }
             if (frame_boundary) {
                 // now we have all the fields we need, it's time to set the fields of packet
+                if (payload_type == G726 && jtt1078->first_g726_pts == AV_NOPTS_VALUE) {
+                    // we cannot compute the code size of g726 payload without its first pts
+                    jtt1078->first_g726_pts = timestamp_ms;
+                    av_packet_unref(pkt);
+                    continue;
+                }
                 unsigned int stream_index = UINT_MAX;
                 for (unsigned int i = 0; i < format->nb_streams; i++) {
                     if (jtt1078_same_codec(format->streams[i]->codecpar, data_type, payload_type)) {
@@ -228,7 +236,8 @@ static int jtt1078_read_packet(AVFormatContext *format, AVPacket *pkt) {
                             break;
                         case G726:
                             stream->codecpar->sample_rate = 8000;
-                            stream->codecpar->bits_per_coded_sample = data_length / 40;
+                            stream->codecpar->bits_per_coded_sample =
+                                    pkt->size / (timestamp_ms - jtt1078->first_g726_pts);
                             stream->codecpar->bit_rate =
                                     stream->codecpar->sample_rate * stream->codecpar->bits_per_coded_sample;
                             stream->codecpar->channels = 1;
