@@ -65,7 +65,7 @@ static int jtt1078_init(struct AVFormatContext *s) {
 }
 
 static DataType jtt1078_get_video_frame_type(AVPacket *pkt, PayloadType payload_type) {
-    if (payload_type == H264) {
+    if (payload_type == H264 || payload_type == H265) {
         int side_data_size;
         uint8_t *side_data = av_packet_get_side_data(pkt, AV_PKT_DATA_QUALITY_STATS, &side_data_size);
         if (side_data != NULL && side_data_size >= 5) {
