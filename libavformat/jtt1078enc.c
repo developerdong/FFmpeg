@@ -93,6 +93,21 @@ static int jtt1078_write_packet(AVFormatContext *format, AVPacket *pkt) {
                sim_card, sim_card + 1, sim_card + 2, sim_card + 3, sim_card + 4, sim_card + 5);
         // transform ff codec id to jtt1078 payload type
         PayloadType payload_type = ff_codec_get_tag(jtt1078_codec_ids, par->codec_id);
+        if (par->codec_id == AV_CODEC_ID_AAC) {
+            switch (par->profile) {
+                case FF_PROFILE_AAC_LOW:
+                case FF_PROFILE_MPEG2_AAC_LOW:
+                    payload_type = AACLC;
+                    break;
+                case FF_PROFILE_AAC_HE:
+                case FF_PROFILE_AAC_HE_V2:
+                case FF_PROFILE_MPEG2_AAC_HE:
+                    payload_type = HEAAC;
+                    break;
+                default:
+                    payload_type = AAC;
+            }
+        }
         // transform ff media type to jtt1078 data type
         DataType data_type;
         switch (par->codec_type) {
