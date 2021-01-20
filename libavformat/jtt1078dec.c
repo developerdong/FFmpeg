@@ -61,14 +61,10 @@ static enum AVMediaType jtt1078_data_type_to_media_type(DataType data_type) {
 
 static enum AVCodecID jtt1078_payload_type_to_codec_id(PayloadType payload_type) {
     switch (payload_type) {
-        case G721:
-            return AV_CODEC_ID_NONE;
         case G722:
             return AV_CODEC_ID_ADPCM_G722;
         case G723:
             return AV_CODEC_ID_G723_1;
-        case G728:
-            return AV_CODEC_ID_NONE;
         case G729:
             return AV_CODEC_ID_G729;
         case G711A:
@@ -79,44 +75,25 @@ static enum AVCodecID jtt1078_payload_type_to_codec_id(PayloadType payload_type)
             return AV_CODEC_ID_ADPCM_G726LE;
         case G729A:
             return AV_CODEC_ID_G729;
-        case DVI4_3:
-        case DVI4_4:
-        case DVI4_8K:
-        case DVI4_16K:
-        case LPC:
-            return AV_CODEC_ID_NONE;
         case S16BE_STEREO:
         case S16BE_MONO:
             return AV_CODEC_ID_PCM_S16BE;
         case MPEGAUDIO:
             return AV_CODEC_ID_MP3;
-        case LPCM:
-            return AV_CODEC_ID_NONE;
         case AAC:
-            return AV_CODEC_ID_AAC;
-        case WMA9STD:
         case HEAAC:
-        case PCM_VOICE:
-        case PCM_AUDIO:
         case AACLC:
-            return AV_CODEC_ID_NONE;
+            return AV_CODEC_ID_AAC;
         case MP3:
             return AV_CODEC_ID_MP3;
-        case ADPCMA:
-            return AV_CODEC_ID_ADPCM_YAMAHA;
-        case MP4AUDIO:
-            return AV_CODEC_ID_NONE;
         case AMR:
             return AV_CODEC_ID_AMR_NB;
-        case RAW:
-            return AV_CODEC_ID_NONE;
         case H264:
             return AV_CODEC_ID_H264;
         case H265:
             return AV_CODEC_ID_H265;
         case AVS:
             return AV_CODEC_ID_CAVS;
-        case SVAC:
         default:
             return AV_CODEC_ID_NONE;
     }
@@ -227,22 +204,15 @@ static int jtt1078_read_packet(AVFormatContext *format, AVPacket *pkt) {
                     stream->time_base = av_make_q(1, 1000);
                     stream->codecpar->codec_type = jtt1078_data_type_to_media_type(data_type);
                     stream->codecpar->codec_id = jtt1078_payload_type_to_codec_id(payload_type);
+                    stream->codecpar->sample_rate = 8000;
+                    stream->codecpar->channels = 1;
                     // set specific params
                     switch (payload_type) {
-                        case G711A:
-                        case G711U:
-                            stream->codecpar->sample_rate = 8000;
-                            stream->codecpar->channels = 1;
-                            break;
                         case G726:
-                            stream->codecpar->sample_rate = 8000;
                             stream->codecpar->bits_per_coded_sample =
                                     pkt->size / (timestamp_ms - jtt1078->first_g726_pts);
                             stream->codecpar->bit_rate =
                                     stream->codecpar->sample_rate * stream->codecpar->bits_per_coded_sample;
-                            stream->codecpar->channels = 1;
-                            break;
-                        default:
                             break;
                     }
                     // set stream index
