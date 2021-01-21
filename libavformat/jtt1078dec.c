@@ -199,7 +199,7 @@ static int jtt1078_read_packet(AVFormatContext *format, AVPacket *pkt) {
                         return AVERROR(ENOMEM);
                     }
                     // set common params
-                    stream->time_base = av_make_q(1, 1000);
+                    avpriv_set_pts_info(stream, 64, 1, 1000);
                     stream->codecpar->codec_type = jtt1078_data_type_to_media_type(data_type);
                     stream->codecpar->codec_id = jtt1078_payload_type_to_codec_id(payload_type);
                     // set default params for audio
