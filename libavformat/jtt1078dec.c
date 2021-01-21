@@ -204,10 +204,15 @@ static int jtt1078_read_packet(AVFormatContext *format, AVPacket *pkt) {
                     stream->time_base = av_make_q(1, 1000);
                     stream->codecpar->codec_type = jtt1078_data_type_to_media_type(data_type);
                     stream->codecpar->codec_id = jtt1078_payload_type_to_codec_id(payload_type);
-                    stream->codecpar->sample_rate = 8000;
+                    // set default params for audio
+                    stream->codecpar->bits_per_coded_sample = av_get_bits_per_sample(stream->codecpar->codec_id);
                     stream->codecpar->channels = 1;
+                    stream->codecpar->sample_rate = 8000;
                     // set specific params
                     switch (payload_type) {
+                        case G722:
+                            stream->codecpar->sample_rate = 16000;
+                            break;
                         case G726:
                             stream->codecpar->bits_per_coded_sample =
                                     pkt->size / (timestamp_ms - jtt1078->first_g726_pts);
