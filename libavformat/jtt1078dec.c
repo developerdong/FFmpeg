@@ -206,6 +206,7 @@ static int jtt1078_read_packet(AVFormatContext *format, AVPacket *pkt) {
                     stream->codecpar->codec_id = jtt1078_payload_type_to_codec_id(payload_type);
                     // set default params for audio
                     stream->codecpar->bits_per_coded_sample = av_get_bits_per_sample(stream->codecpar->codec_id);
+                    stream->codecpar->channel_layout = AV_CH_LAYOUT_MONO;
                     stream->codecpar->channels = 1;
                     stream->codecpar->sample_rate = 8000;
                     // set specific params
