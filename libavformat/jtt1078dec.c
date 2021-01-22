@@ -214,6 +214,10 @@ static int jtt1078_read_packet(AVFormatContext *format, AVPacket *pkt) {
                             stream->codecpar->bit_rate =
                                     stream->codecpar->sample_rate * stream->codecpar->bits_per_coded_sample;
                             break;
+                        case S16BE_STEREO:
+                            stream->codecpar->channel_layout = AV_CH_LAYOUT_STEREO;
+                            stream->codecpar->channels = 2;
+                            break;
                     }
                     // set stream index
                     stream_index = format->nb_streams - 1;

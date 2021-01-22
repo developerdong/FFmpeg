@@ -29,6 +29,7 @@ static const AVCodecTag jtt1078_codec_ids[] = {
         {AV_CODEC_ID_PCM_ALAW,     G711A},
         {AV_CODEC_ID_PCM_MULAW,    G711U},
         {AV_CODEC_ID_ADPCM_G726LE, G726},
+        {AV_CODEC_ID_PCM_S16BE,    S16BE_MONO},
         {AV_CODEC_ID_AAC,          AAC},
         {AV_CODEC_ID_MP3,          MP3},
         {AV_CODEC_ID_AMR_NB,       AMR},
@@ -104,6 +105,12 @@ static int jtt1078_write_packet(AVFormatContext *format, AVPacket *pkt) {
                     break;
                 default:
                     payload_type = AAC;
+            }
+        } else if (par->codec_id == AV_CODEC_ID_PCM_S16BE) {
+            if (par->channel_layout == AV_CH_LAYOUT_STEREO || par->channels == 2) {
+                payload_type = S16BE_STEREO;
+            } else {
+                payload_type = S16BE_MONO;
             }
         }
         // transform ff media type to jtt1078 data type
