@@ -63,16 +63,12 @@ static enum AVCodecID jtt1078_payload_type_to_codec_id(PayloadType payload_type)
     switch (payload_type) {
         case G722:
             return AV_CODEC_ID_ADPCM_G722;
-        case G729:
-            return AV_CODEC_ID_G729;
         case G711A:
             return AV_CODEC_ID_PCM_ALAW;
         case G711U:
             return AV_CODEC_ID_PCM_MULAW;
         case G726:
             return AV_CODEC_ID_ADPCM_G726LE;
-        case G729A:
-            return AV_CODEC_ID_G729;
         case S16BE_STEREO:
         case S16BE_MONO:
             return AV_CODEC_ID_PCM_S16BE;
