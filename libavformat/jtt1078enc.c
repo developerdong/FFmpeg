@@ -26,7 +26,6 @@
 
 static const AVCodecTag jtt1078_codec_ids[] = {
         {AV_CODEC_ID_ADPCM_G722,   G722},
-        {AV_CODEC_ID_G723_1,       G723},
         {AV_CODEC_ID_PCM_ALAW,     G711A},
         {AV_CODEC_ID_PCM_MULAW,    G711U},
         {AV_CODEC_ID_ADPCM_G726LE, G726},
