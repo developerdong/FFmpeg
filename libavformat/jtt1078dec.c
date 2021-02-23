@@ -104,7 +104,7 @@ static bool jtt1078_same_codec(AVCodecParameters *codec_params, DataType data_ty
 
 static int jtt1078_read_packet(AVFormatContext *format, AVPacket *pkt) {
     JTT1078Context *jtt1078 = format->priv_data;
-    AVIOContext *io = format->pb;
+    AVIOContext * io = format->pb;
     if (jtt1078->version == 2016) {
         bool frame_boundary;
         PayloadType payload_type;
@@ -217,6 +217,9 @@ static int jtt1078_read_packet(AVFormatContext *format, AVPacket *pkt) {
                         case S16BE_STEREO:
                             stream->codecpar->channel_layout = AV_CH_LAYOUT_STEREO;
                             stream->codecpar->channels = 2;
+                            break;
+                        case MPEGAUDIO:
+                            stream->codecpar->sample_rate = 44100;
                             break;
                     }
                     // set stream index
