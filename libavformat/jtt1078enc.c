@@ -32,7 +32,6 @@ static const AVCodecTag jtt1078_codec_ids[] = {
         {AV_CODEC_ID_PCM_S16BE,    S16BE_MONO},
         {AV_CODEC_ID_AAC,          AAC},
         {AV_CODEC_ID_MP3,          MP3},
-        {AV_CODEC_ID_AMR_NB,       AMR},
         {AV_CODEC_ID_H264,         H264},
         {AV_CODEC_ID_H265,         H265},
         {AV_CODEC_ID_CAVS,         AVS},
