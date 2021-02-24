@@ -34,7 +34,6 @@ static const AVCodecTag jtt1078_codec_ids[] = {
         {AV_CODEC_ID_MP3,          MP3},
         {AV_CODEC_ID_H264,         H264},
         {AV_CODEC_ID_H265,         H265},
-        {AV_CODEC_ID_CAVS,         AVS},
         {AV_CODEC_ID_NONE,         0}
 };
 
