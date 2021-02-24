@@ -83,7 +83,7 @@ static DataType jtt1078_get_video_frame_type(AVPacket *pkt, PayloadType payload_
 
 static int jtt1078_write_packet(AVFormatContext *format, AVPacket *pkt) {
     JTT1078Context *jtt1078 = format->priv_data;
-    AVIOContext *io = format->pb;
+    AVIOContext * io = format->pb;
     AVCodecParameters *par = format->streams[pkt->stream_index]->codecpar;
     if (jtt1078->version == 2016) {
         // hex chars to bytes
@@ -188,9 +188,9 @@ static int jtt1078_write_packet(AVFormatContext *format, AVPacket *pkt) {
 
 #define OFFSET(x) offsetof(JTT1078Context, x)
 static const AVOption options[] = {
-        {"version",         "Published year of JT/T 1078",              OFFSET(version),         AV_OPT_TYPE_INT,    {.i64=2016}, 2016,              INT_MAX, AV_OPT_FLAG_ENCODING_PARAM},
+        {"version",         "Published year of JT/T 1078",              OFFSET(version),         AV_OPT_TYPE_INT,    {.i64=2016},           2016,    INT_MAX, AV_OPT_FLAG_ENCODING_PARAM},
         {"sim_card",        "SIM card number of the device (12 chars)", OFFSET(sim_card),        AV_OPT_TYPE_STRING, {.str="000000000000"}, INT_MIN, INT_MAX, AV_OPT_FLAG_ENCODING_PARAM},
-        {"logical_channel", "Logical channel number",                   OFFSET(logical_channel), AV_OPT_TYPE_INT,    {.i64=1},    1, 37,                      AV_OPT_FLAG_ENCODING_PARAM},
+        {"logical_channel", "Logical channel number",                   OFFSET(logical_channel), AV_OPT_TYPE_INT,    {.i64=1},              1,       37,      AV_OPT_FLAG_ENCODING_PARAM},
         {NULL},
 };
 

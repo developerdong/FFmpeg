@@ -219,6 +219,7 @@ static int jtt1078_read_packet(AVFormatContext *format, AVPacket *pkt) {
                             stream->codecpar->channels = 2;
                             break;
                         case MPEGAUDIO:
+                        case MP3:
                             stream->codecpar->sample_rate = 44100;
                             break;
                     }
